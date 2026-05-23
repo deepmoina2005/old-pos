@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Electron App</title>
+
+    <style>
+      /* Hide scrollbar */
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+      html {
+        scrollbar-width: none;
+      }
+
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+
+      #root {
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      /* Titlebar visibility styles */
+      #titlebar {
+        height: 0;
+        opacity: 0;
+        transition: height 0.5s ease, opacity 0.5s ease;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 50; /* Ensure titlebar is above other content */
+      }
+
+      #titlebar.show {
+        height: 2.5rem; /* h-10 equivalent */
+        opacity: 1;
+      }
+
+      /* Drag region for custom title bar */
+      .drag {
+        -webkit-app-region: drag;
+      }
+
+      /* Prevent dragging for controls */
+      .no-drag {
+        -webkit-app-region: no-drag;
+      }
+    </style>
+
+    <script>
+      // Show titlebar when mouse is at the top edge of the window
+      document.addEventListener("mousemove", (e) => {
+        const titlebar = document.getElementById("titlebar");
+        if (titlebar) { // Check if titlebar exists
+          if (e.clientY <= 10) { // Trigger at the top 10px
+            titlebar.classList.add("show");
+          } else {
+            titlebar.classList.remove("show");
+          }
+        }
+      });
+    </script>
+  </head>
+
+  <body class="bg-white dark:bg-gray-900 text-black dark:text-white">
+
+    <!-- Main App Container (React/TSX content mounts here) -->
+    <div id="root" class="pt-0 h-full overflow-y-auto">
+      <!-- React/TSX content mounts here -->
+    </div>
+
+    <!-- Import the main TypeScript file for React -->
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
